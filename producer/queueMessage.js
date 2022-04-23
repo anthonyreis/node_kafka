@@ -6,7 +6,12 @@ export default async function queueMessage(producer) {
 
     const event = { category, noise };
 
-    const success = await producer.send({ topic: 'test', messages: [{ value: eventType.toBuffer(event) }] });
+    const success = await producer.send({
+        topic: 'test',
+        messages: [{
+            value: eventType.toBuffer(event)
+        }]
+    });
 
     if (success) console.log('message successfully sent');
     else console.log('something went wrong');
