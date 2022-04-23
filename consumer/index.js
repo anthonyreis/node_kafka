@@ -1,5 +1,6 @@
 import setKafka from '../common/setKafka.js';
 import consume from './consume.js';
+import events from './events.js';
 
 (async function setConsumer() {
     const params = {
@@ -10,6 +11,12 @@ import consume from './consume.js';
     const kafka = setKafka(params);
 
     const consumer = kafka.consumer({ groupId: 'kafka' });
+
+    events(consumer);
+
+    await consumer.connect();
+
+    await consumer.subscribe({ topic: 'test', fromBeginning: true });
 
     consume(consumer);
 })();
