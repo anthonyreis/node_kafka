@@ -23,7 +23,6 @@ import queueMessage from './queueMessage.js';
         console.log('Message sent');
     });
 
-
     producer.on(DISCONNECT, () => {
         console.log('Producer disconnected');
     });
