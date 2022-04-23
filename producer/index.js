@@ -1,4 +1,5 @@
 import setKafka from '../common/setKafka.js';
+import events from './events.js';
 import queueMessage from './queueMessage.js';
 
 (async function setProducer() {
@@ -11,22 +12,9 @@ import queueMessage from './queueMessage.js';
 
     const producer = kafka.producer();
 
-    const { CONNECT, DISCONNECT, REQUEST } = producer.events;
-
-    producer.on(CONNECT, () => {
-        console.log('Producer connected');
-    });
+    events(producer);
 
     await producer.connect();
-
-    producer.on(REQUEST, () => {
-        console.log('Message sent');
-    });
-
-
-    producer.on(DISCONNECT, () => {
-        console.log('Producer disconnected');
-    });
 
     setInterval(() => {
         queueMessage(producer);
