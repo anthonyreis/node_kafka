@@ -6,7 +6,7 @@ export default function events(producer) {
     });
 
     producer.on(REQUEST, () => {
-        console.log('Message sent');
+        console.log('Sending message');
     });
 
     producer.on(DISCONNECT, () => {
