@@ -1,11 +1,34 @@
-console.log('...producer');
-import Kafka from 'node-rdkafka';
+import setKafka from '../common/setKafka.js';
 import queueMessage from './queueMessage.js';
 
-const stream = Kafka.Producer.createWriteStream({
-    'metadata.broker.list': 'localhost:9092'
-}, {}, { 'topic': 'test' });
+(async function setProducer() {
+    const params = {
+        clientId: 'my-app',
+        brokers: ['localhost:9092']
+    }
 
-setInterval(() => {
-    queueMessage(stream);
-}, 3000)
+    const kafka = setKafka(params);
+
+    const producer = kafka.producer();
+
+    const { CONNECT, DISCONNECT, REQUEST } = producer.events;
+
+    producer.on(CONNECT, () => {
+        console.log('Producer connected');
+    });
+
+    await producer.connect();
+
+    producer.on(REQUEST, () => {
+        console.log('Message sent');
+    });
+
+
+    producer.on(DISCONNECT, () => {
+        console.log('Producer disconnected');
+    });
+
+    setInterval(() => {
+        queueMessage(producer);
+    }, 3000)
+})();

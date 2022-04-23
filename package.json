@@ -22,6 +22,6 @@
   "homepage": "https://github.com/anthonyreis/node_kafka#readme",
   "dependencies": {
     "avsc": "^5.7.4",
-    "node-rdkafka": "^2.12.0"
+    "kafkajs": "^1.16.0"
   }
 }

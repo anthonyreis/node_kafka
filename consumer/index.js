@@ -1,10 +1,15 @@
-console.log('...consumer');
-import Kafka from 'node-rdkafka';
+import setKafka from '../common/setKafka.js';
 import consume from './consume.js';
 
-const consumer = Kafka.KafkaConsumer({
-    'group.id': 'kafka',
-    'metadata.broker.list': 'localhost:9092'
-}, {});
+(async function setConsumer() {
+    const params = {
+        clientId: 'my-app',
+        brokers: ['localhost:9092']
+    };
 
-consume(consumer);
+    const kafka = setKafka(params);
+
+    const consumer = kafka.consumer({ groupId: 'kafka' });
+
+    consume(consumer);
+})();
